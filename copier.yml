@@ -15,6 +15,11 @@ http_port:
   type: int
   default: 8080
 
+docker:
+  type: bool
+  default: true
+  help: Run in container(s)?
+
 database:
   type: bool
   default: true
@@ -22,7 +27,7 @@ database:
 
 postgres_host:
   type: str
-  default: localhost
+  default: "{% if docker %} db {% else %} localhost {% endif %}"
   when: "{% if database %} true {% endif %}"
   help: Postgres Host?
 
@@ -49,6 +54,7 @@ postgres_db:
   default: db
   when: "{% if database %} true {% endif %}"
   help: Postgres Database?
+
 
 
 _tasks:

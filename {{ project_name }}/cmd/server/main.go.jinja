@@ -4,11 +4,9 @@ import (
   "os"
   "net/http"
   "log"
-  "flag"
 
   "{{ go_module }}/internal/initializers"
   "{{ go_module }}/internal/handlers"
-  "{{ go_module }}/internal/models"
   "github.com/gin-gonic/gin"
   {% if database %}
   "gorm.io/gorm"
@@ -20,22 +18,12 @@ func init() {
 }
 
 func main() {
-  migrate := flag.Bool("migrate", false, "Run automigration")
-  flag.Parse()
-
   {% if database %}
   var db gorm.DB
   if err := initializers.ConnectToDatabase(&db); err != nil {
     log.Fatal(err)
   }
   {% endif %}
-
-  if *migrate {
-    if err := db.AutoMigrate(&models.User{}); err != nil {
-      log.Fatal(err)
-    }
-    return
-  }
 
   router := gin.Default()
 
