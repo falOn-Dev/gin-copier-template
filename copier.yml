@@ -54,3 +54,5 @@ postgres_db:
 _tasks:
   - command: go mod tidy
     working_directory: ./{{ project_name }}
+  - command: gofmt -w .
+    working_directory: ./{{ project_name }}
