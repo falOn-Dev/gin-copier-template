@@ -1,0 +1,56 @@
+project_name:
+  type: str
+  help: What is the name of the project?
+
+go_module:
+  type: str
+  default: github.com/falon-dev/{{project_name}}
+  help: What should be put in the go.mod file?
+
+go_version:
+  type: str
+  default: 1.25.5
+
+http_port:
+  type: int
+  default: 8080
+
+database:
+  type: bool
+  default: true
+  help: Add database connection and models?
+
+postgres_host:
+  type: str
+  default: localhost
+  when: "{% if database %} true {% endif %}"
+  help: Postgres Host?
+
+postgres_port:
+  type: int
+  default: 5432
+  when: "{% if database %} true {% endif %}"
+  help: Postgres Port?
+
+postgres_user:
+  type: str
+  default: postgres
+  when: "{% if database %} true {% endif %}"
+  help: Postgres Username?
+
+postgres_password:
+  type: str
+  default: postgres
+  when: "{% if database %} true {% endif %}"
+  help: Postgres Password?
+
+postgres_db:
+  type: str
+  default: db
+  when: "{% if database %} true {% endif %}"
+  help: Postgres Database?
+
+
+_tasks:
+  - command: go mod tidy
+    working_directory: ./{{ project_name }}

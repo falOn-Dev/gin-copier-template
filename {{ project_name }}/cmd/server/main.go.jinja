@@ -1,0 +1,29 @@
+package main
+
+import (
+  "os"
+  "net/http"
+
+  "{{ go_module }}/internal/initializers"
+  "{{ go_module }}/internal/handlers"
+  "github.com/gin-gonic/gin"
+  {% if database %}
+  "gorm.io/gorm"
+  {% endif %}
+)
+
+func init() {
+  initializers.LoadEnvVariables()
+}
+
+func main() {
+  {% if database %}
+  var db gorm.DB
+  {% endif %}
+
+  router := gin.Default()
+
+  handlers.RegisterExampleHandlers(router)
+
+  http.ListenAndServe(":" + os.Getenv("PORT"), router)
+}

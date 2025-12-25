@@ -1,0 +1,29 @@
+package handlers
+
+import (
+  "net/http"
+
+  "github.com/gin-gonic/gin"
+)
+
+func RegisterExampleHandlers(r gin.IRoutes) {
+  r.GET("/ping", pingHandler())
+  r.GET("/health", healthHandler())
+}
+
+func pingHandler() gin.HandlerFunc {
+  return func(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H {
+      "message": "pong",
+    })
+  }
+}
+
+func healthHandler() gin.HandlerFunc {
+  return func(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H {
+      "online": true,
+      "uptime": 42,
+    })
+  }
+}
